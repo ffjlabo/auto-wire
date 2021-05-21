@@ -1,0 +1,18 @@
+package di
+
+import (
+    "github.com/google/wire"
+{{ range .importList }}
+    {{ printf "\"%s\"" . -}}
+{{ end }}
+)
+
+func initServer() interface{} {
+	wire.Build(
+    {{ range .wireSetList }}
+        {{ printf "%s," . -}}
+    {{ end }}
+	)
+
+	return nil
+}
