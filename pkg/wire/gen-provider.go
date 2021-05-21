@@ -11,12 +11,13 @@ import (
 	"github.com/ffjlabo/auto-wire/pkg/util"
 )
 
-func GenerateProviderContent(pkgDir string, providerName string, bindMap map[string]*ast.InterfaceSpec) ([]byte, error) {
+// GenerateProviderContent generate the content of provider.go
+func GenerateProviderContent(providerDir string, providerName string, bindMap map[string]*ast.InterfaceSpec) ([]byte, error) {
 	importList := []string{}
 	providerList := []string{}
 	bMap := map[string]*ast.InterfaceSpec{}
 
-	filePath := pkgDir + "/" + "provider.go"
+	filePath := providerDir + "/" + "provider.go"
 	if _, err := os.Stat(filePath); err == nil {
 		// ファイルがすでに存在してたら
 		importList, err = ast.FindImportPath(filePath)
@@ -38,12 +39,11 @@ func GenerateProviderContent(pkgDir string, providerName string, bindMap map[str
 		}
 	}
 
-	// ファイルが存在しない時
 	if !util.IsContained(providerList, providerName) {
 		providerList = append(providerList, providerName)
 	}
 
-	// bindMapを再生性
+	// bindMapを再作成
 	for structName, interfaceSpec := range bindMap {
 		bMap[structName] = interfaceSpec
 	}
@@ -72,7 +72,7 @@ func GenerateProviderContent(pkgDir string, providerName string, bindMap map[str
 		return nil, err
 	}
 
-	paths := strings.Split(pkgDir, "/")
+	paths := strings.Split(providerDir, "/")
 	pkgName := paths[len(paths)-1]
 
 	data := map[string]interface{}{

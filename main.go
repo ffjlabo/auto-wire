@@ -12,7 +12,7 @@ import (
 func main() {
 	// wire.go
 	importPath := config.ModuleName + "/" + config.UsecaseDir
-	content, err := wire.GenerateWireContent(importPath)
+	content, err := wire.GenerateWireContent(config.DiDir, importPath)
 	if err != nil {
 		log.Fatal(err)
 	}

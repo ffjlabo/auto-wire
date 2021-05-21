@@ -6,16 +6,16 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/ffjlabo/auto-wire/config"
 	"github.com/ffjlabo/auto-wire/pkg/ast"
 	"github.com/ffjlabo/auto-wire/pkg/util"
 )
 
-func GenerateWireContent(importPath string) ([]byte, error) {
+// GenerateWireContent generate the content of wire.go
+func GenerateWireContent(wireDir string, importPath string) ([]byte, error) {
 	importList := []string{}
 	providerSetList := []string{}
 
-	filePath := config.DiDir + "/wire.go"
+	filePath := wireDir + "/" + "wire.go"
 	if _, err := os.Stat(filePath); err == nil {
 		// ファイルがすでに存在してたら
 		importList, err = ast.FindImportPath(filePath)

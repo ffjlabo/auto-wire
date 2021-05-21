@@ -7,6 +7,7 @@ import (
 	"strings"
 )
 
+// FindImportPath find importPath list
 func FindImportPath(filePath string) ([]string, error) {
 	fset := token.NewFileSet()
 	f, err := parser.ParseFile(fset, filePath, nil, parser.Mode(0))
@@ -23,6 +24,7 @@ func FindImportPath(filePath string) ([]string, error) {
 	return importList, nil
 }
 
+// FindProviderName find provider name list
 func FindProviderName(filePath string) ([]string, error) {
 	fset := token.NewFileSet()
 	f, err := parser.ParseFile(fset, filePath, nil, parser.Mode(0))
@@ -107,6 +109,7 @@ type InterfaceSpec struct {
 	ImportPath string
 }
 
+// FindWireBind find elements of wire.Bind()
 func FindWireBind(filePath string) (map[string]*InterfaceSpec, error) {
 	fset := token.NewFileSet()
 	f, err := parser.ParseFile(fset, filePath, nil, parser.Mode(0))
