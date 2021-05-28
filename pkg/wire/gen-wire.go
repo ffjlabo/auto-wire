@@ -2,6 +2,7 @@ package wire
 
 import (
 	"bytes"
+	_ "embed"
 	"os"
 	"strings"
 	"text/template"
@@ -9,6 +10,9 @@ import (
 	"github.com/ffjlabo/auto-wire/pkg/ast"
 	"github.com/ffjlabo/auto-wire/pkg/util"
 )
+
+//go:embed template/wire.go.tmpl
+var wireTemplate string
 
 // GenerateWireContent generate the content of wire.go
 func GenerateWireContent(wireDir string, importPath string) ([]byte, error) {
@@ -40,7 +44,7 @@ func GenerateWireContent(wireDir string, importPath string) ([]byte, error) {
 		providerSetList = append(providerSetList, pkgName+"."+"Set")
 	}
 
-	tpl, err := template.ParseFiles("./template/wire.go.tmpl")
+	tpl, err := template.New("wireTemplate").Parse(wireTemplate)
 	if err != nil {
 		return nil, err
 	}

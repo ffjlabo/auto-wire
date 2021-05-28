@@ -2,6 +2,7 @@ package wire
 
 import (
 	"bytes"
+	_ "embed"
 	"fmt"
 	"os"
 	"strings"
@@ -10,6 +11,9 @@ import (
 	"github.com/ffjlabo/auto-wire/pkg/ast"
 	"github.com/ffjlabo/auto-wire/pkg/util"
 )
+
+//go:embed template/provider.go.tmpl
+var providerTemplate string
 
 // GenerateProviderContent generate the content of provider.go
 func GenerateProviderContent(providerDir string, providerName string, bindMap map[string]*ast.InterfaceSpec) ([]byte, error) {
@@ -67,7 +71,7 @@ func GenerateProviderContent(providerDir string, providerName string, bindMap ma
 		bindList = append(bindList, bind)
 	}
 
-	tpl, err := template.ParseFiles("./template/provider.go.tmpl")
+	tpl, err := template.New("providerTemplate").Parse(providerTemplate)
 	if err != nil {
 		return nil, err
 	}
